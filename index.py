@@ -22,6 +22,8 @@ class Milena():
         self.mais()
         sleep(2)
         self.raspa()
+        sleep(2)
+        self.cria_planilhas()
         sleep(131231231)
 
     def abre(self):
@@ -52,7 +54,10 @@ class Milena():
                 print(f'error {e}')
 
     def raspa(self):
+        global armazena_nome, armazena_preco
         contador = 1
+        armazena_nome = []
+        armazena_preco = []
         while True:
             try:
                 produtos = {
@@ -65,17 +70,36 @@ class Milena():
                 nome = self.driver.find_element(By.XPATH, produtos['XP']['nome']).text
                 preco = self.driver.find_element(By.XPATH, produtos['XP']['preco']).text
 
+                armazena_nome.append(nome)
+                armazena_preco.append(preco)
+
                 print(nome)
                 print(preco)
                 sleep(1)
                 contador += 1
-                print(contador)
+               
+                
             except NoSuchElementException:
-                print('sexo')
+                print('nao tem mais elementos!')
+                break
 
             except Exception as e:
                 print(f'error {e}')
 
+    def cria_planilhas(self):
+        planilha = openpyxl.Workbook()
+        mili = planilha.active
+        mili.title = 'Eletro'
+        mili['A1'] = 'Nome'
+        mili['B1'] = 'Preco'
+
+        for index, (nome, preco) in enumerate(zip(armazena_nome, armazena_preco), start=2):
+            mili.cell(column=1, row=index, value=nome)
+            mili.cell(column=2, row=index, value=preco)
+
+
+        planilha.save('planilha_de_preco.xlsx')
+        print('Planilha criada com sucesso!')
     
 
 milena = Milena()
