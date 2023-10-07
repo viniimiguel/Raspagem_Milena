@@ -24,6 +24,8 @@ class Milena():
         self.raspa()
         sleep(2)
         self.cria_planilhas()
+        sleep(2)
+        self.envia_email()
         sleep(131231231)
 
     def abre(self):
@@ -101,6 +103,48 @@ class Milena():
         planilha.save('planilha_de_preco.xlsx')
         print('Planilha criada com sucesso!')
     
+    def envia_email(self):
+        smtp_server = 'smtp.gmail.com'
+        smtp_port = 587
+        email_sender =input('digite o seu gmail: ')
+        email_password =('ufiwahyqoyzgaihn')
+        recipient_email = input('pra que voce quer enviar o email?: ') 
+        email_subject = 'planilha de dados'
+
+
+        email_body = 'segue em anaxo a planilha de dados: '
+
+
+        msg = MIMEMultipart()
+        msg['From'] = email_sender
+        msg['To'] = recipient_email
+        msg['Subject'] = email_subject
+        msg.attach(MIMEText(email_body, 'plain'))
+
+        filename = 'planilha_de_preco.xlsx'
+        attachment = open(filename, 'rb')
+
+        part = MIMEBase('application', 'octet-stream')
+        part.set_payload((attachment).read())
+        encoders.encode_base64(part)
+        part.add_header('Content-Disposition', "attachment; filename= %s" % filename)
+
+        msg.attach(part)
+
+        try:
+
+            server = smtplib.SMTP(smtp_server, smtp_port)
+            server.starttls()
+            
+            server.login(email_sender, email_password)
+            
+            server.sendmail(email_sender, recipient_email, msg.as_string())
+            
+            server.quit()
+            
+            print('E-mail com anexo enviado com sucesso!')
+        except Exception as e:
+            print('Erro ao enviar o e-mail:', str(e))
 
 milena = Milena()
 milena.main()
