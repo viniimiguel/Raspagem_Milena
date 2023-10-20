@@ -1,4 +1,4 @@
-# Raspagem_Milena
+# Raspagem_Milena <img align="center" alt="html5" src="https://img.shields.io/badge/Python-14354C?style=for-the-badge&logo=python&logoColor=white"/> <img align="center" alt="html5" src="https://img.shields.io/badge/-selenium-%43B02A?style=for-the-badge&logo=selenium&logoColor=white"/>
 
 ## O web scraping em um site de vendas de eletrodomésticos. O script realiza a extração dos preços de cada produto e os armazena em um banco de dados.
 
